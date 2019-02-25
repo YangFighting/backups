@@ -1,0 +1,13 @@
+<!--
+    机器人顺时针做圆周运动，旋转角度默认为 360度（2*pi） ，半径默认0.5米
+-->
+<launch>
+
+    <node 
+        name="rotate_value" pkg="turtle_move" type="move_turtle_rotate_value"
+        output="screen">
+        <param name="goal_angle" type="double" value= "360"/>
+        <param name="goal_radius" value="0.5" />
+    </node> 
+
+</launch>

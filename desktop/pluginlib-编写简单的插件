@@ -1,0 +1,107 @@
+来源 http://wiki.ros.org/pluginlib/Tutorials/Writing%20and%20Using%20a%20Simple%20Plugin
+
+进入工作空间下的src
+cd catkin_ws/src/ 
+创建pluginlib_tutorials_示例包:
+$ catkin_create_pkg pluginlib_tutorials_ roscpp pluginlib
+
+创建基类
+vim catkin_ws/src/pluginlib_tutorials_/include/pluginlib_tutorials_/polygon_base.h
+
+基类polygon_base.h代码：
+#ifndef PLUGINLIB_TUTORIALS__POLYGON_BASE_H_
+#define PLUGINLIB_TUTORIALS__POLYGON_BASE_H_
+
+namespace polygon_base
+{
+  class RegularPolygon
+  {
+    public:
+      virtual void initialize(double side_length) = 0;
+      virtual double area() = 0;
+      virtual ~RegularPolygon(){}
+
+    protected:
+      RegularPolygon(){}
+  };
+};
+#endif
+
+创建插件
+
+include/pluginlib_tutorials_/polygon_plugins.h
+代码如下：
+#ifndef PLUGINLIB_TUTORIALS__POLYGON_PLUGINS_H_
+#define PLUGINLIB_TUTORIALS__POLYGON_PLUGINS_H_
+#include <pluginlib_tutorials_/polygon_base.h>
+#include <cmath>
+
+namespace polygon_plugins
+{
+  class Triangle : public polygon_base::RegularPolygon
+  {
+    public:
+      Triangle(){}
+
+      void initialize(double side_length)
+      {
+        side_length_ = side_length;
+      }
+
+      double area()
+      {
+        return 0.5 * side_length_ * getHeight();
+      }
+
+      double getHeight()
+      {
+        return sqrt((side_length_ * side_length_) - ((side_length_ / 2) * (side_length_ / 2)));
+      }
+
+    private:
+      double side_length_;
+  };
+
+  class Square : public polygon_base::RegularPolygon
+  {
+    public:
+      Square(){}
+
+      void initialize(double side_length)
+      {
+        side_length_ = side_length;
+      }
+
+      double area()
+      {
+        return side_length_ * side_length_;
+      }
+
+    private:
+      double side_length_;
+
+  };
+};
+#endif
+
+注册插件
+src/polygon_plugins.cpp 
+代码如下：
+#include <pluginlib/class_list_macros.h>
+#include <pluginlib_tutorials_/polygon_base.h>
+#include <pluginlib_tutorials_/polygon_plugins.h>
+
+PLUGINLIB_EXPORT_CLASS(polygon_plugins::Triangle, polygon_base::RegularPolygon)
+PLUGINLIB_EXPORT_CLASS(polygon_plugins::Square, polygon_base::RegularPolygon)
+
+构建插件库
+
+在CMakeLists.txt文件中添加
+include_directories(include)
+add_library(polygon_plugins src/polygon_plugins.cpp)
+
+编译
+
+
+
+

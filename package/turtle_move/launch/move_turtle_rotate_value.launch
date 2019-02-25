@@ -1,0 +1,14 @@
+<!--
+    顺时针旋转机器人，旋转角度默认为 180 度 (pi)
+-->
+<launch>
+
+  <!-- Rotate value-->
+    <node 
+        name="rotate_value" pkg="turtle_move" type="move_turtle_rotate_value"
+        output="screen">
+        <param name="goal_angle" type="double" value= "180"/>
+    </node> 
+
+
+</launch>

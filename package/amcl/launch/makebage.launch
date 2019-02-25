@@ -1,0 +1,12 @@
+<!--
+-->
+<launch>
+   
+  <!-- make bag -->
+  <arg name="file_prefix" default="aisle"/>
+  <arg name="topic_name" default="/tf /tf_static /scan"/>
+  <node name="record" pkg="rosbag" type="record" output="screen" required =“true” 
+  	args="-o /home/yang/bagfiles/$(arg file_prefix) $(arg topic_name)" />
+  
+</launch>
+

@@ -1,0 +1,27 @@
+<!--
+-->
+<launch>
+
+<!--
+  <param name="/use_sim_time" value="true"/>
+-->
+
+  <!-- rosbag play -->
+  <arg name="bag_filename" default="aisle"/>
+  <node name="rosbag_play" pkg="rosbag" type="play" 
+    args="-d 5 -r 1 --clock --hz 10 /home/yang/bagfiles/$(arg bag_filename).bag"/> 
+  
+  <!-- Map server -->
+  <arg name="map_file" default="/home/yang/map/lib/aisle.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!-- AMCL -->
+  <include file="$(find turtlebot_navigation)/launch/includes/amcl/sim_rplidar_amcl.launch"/>
+  
+  <!-- rviz -->
+  <node pkg="rviz" name="rviz" type="rviz" args="-d $(find amcl)/rviz/rviz.rviz" />
+
+<!--
+  <node pkg="tf" type="static_transform_publisher" name="base_to_laser" args="0.0 0.0 0.18 0 0.0 0.0 base_link laser 100"/>
+-->
+</launch>

@@ -1,0 +1,56 @@
+主机上运行 
+roslaunch turtlebot_navigation kartoSlam.launch 
+
+工作站上
+roslaunch turtlebot_client kartoSlamClient.launch
+
+主机上,保存地图
+rosrun map_server map_saver -f /home/yang/map/lib/rplidar_karto
+rosrun map_server map_saver -f /home/yang/map/lib/aisle
+
+rosrun map_server map_saver -f /home/yang/map/KB/aisle
+————————————————————————————————————————————————————————
+上网本新开端口，打开roscore
+roscore
+
+上网本新开端口，启动turtlebot
+roslaunch turtlebot_bringup minimal.launch
+
+上网本新开端口，启动karto,用于构建地图
+roslaunch turtlebot_navigation rplidar_karto_demo.launch
+
+
+————————————————————————————————————————————————————————
+遥控turtlebot（以下二选一）
+新终端设置设备并启动游戏杆遥控支持
+rosparam set /joystick/dev "/dev/input/js0"
+roslaunch turtlebot_teleop xbox360_teleop.launch
+
+工作机或上网本新开端口，启动键盘操作Turtlebot
+roslaunch turtlebot_teleop keyboard_teleop.launch 
+——————————————————————————————————————————————————————————————
+
+上网本端口，开启AMCL
+roslaunch turtlebot_navigation my_amcl_demo.launch map_file:=/home/yang/map/rplidar_karto.yaml
+
+
+<!-- View in rviz -->
+  <include file="$(find turtlebot_rviz_launchers)/launch/view_navigation.launch"/>
+
+——————————————————————————————————————————————————————————————
+工作机或上网本新开端口，启动rviz，实时查看建图情况
+roslaunch turtlebot_rviz_launchers view_navigation.launch
+
+——————————————————————————————————————————————————————————————
+上网本新开端口，启动蓝牙传输
+rosrun slam_karto Pos2bluetooth 
+
+构建地图结束保存地图
+上网本新开端口，建立目录，保存地图
+mkdir -p ~/map
+
+rosrun map_server map_saver -f ~/map/rplidar_karto
+ls ~/map
+
+
+rosrun map_server map_saver -f /home/yang/map/lib/rplidar_karto

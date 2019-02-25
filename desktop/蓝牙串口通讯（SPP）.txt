@@ -1,0 +1,21 @@
+扫描蓝牙设备
+hcitool scan
+
+为本地设备增加SPP服务
+sdptool add SP
+
+查看手机蓝牙spp服务在哪个信道 （我的是 8 ）
+sdptool browse 04:B1:67:83:0F:85
+
+创建设备节点
+sudo mknod /dev/rfcomm0 c 216 0
+
+设置权限
+sudo chmod 666 /dev/rfcomm0
+
+连接蓝牙设备
+rfcomm bind 0 04:B1:67:83:0F:85 8
+
+启动蓝牙传输
+rosrun slam_karto Pos2bluetooth
+

@@ -1,0 +1,75 @@
+﻿在工作站上连接主机
+1、 使主机和工作站连接同一个 wifi,确保
+主机的 IP 为 192.168.0.111,工作站的 IP 为 192.168.0.222
+2、 在工作站上打开终端,输入 ssh yang@192.168.0.111
+
+以后只要涉及到主机相关指令,都是在工作站上开启一个终端,输入
+ssh yang@192.168.0.111
+
+测试ROS是否正常运行
+上网本新开端口,打开 roscore(下面为输入到终端的指令,下同)
+roscore
+
+
+地图构建
+主机上，新开端口，打开roscore
+roscore
+
+主机上运行 ,打开SLAM
+roslaunch turtlebot_navigation kartoSlam.launch
+
+工作站上，打开rviz
+roslaunch turtlebot_client kartoSlamClient.launch
+
+
+主机上,保存地图
+rosrun map_server map_saver -f /home/yang/map/lib/xxx
+
+确定地图数据包名字前缀(xxx与环境相关)
+file_prefix:=mapbag_xxx
+
+记录bag包
+roslaunch amcl makebag_karto.launch file_prefix:=mapbag_xxx
+
+工作机或上网本新开端口，启动键盘操作Turtlebot
+roslaunch turtlebot_teleop keyboard_teleop.launch
+按照终端提示操作Turtlebot
+注意输入法在英文状态下，且必须为小写
+
+确定地图名字（xxx与环境相关）
+
+建图完成后，保存地图
+rosrun map_server map_saver -f /home/yang/map/newmap/map_xxx
+
+全局定位
+主机上，新开端口，打开roscore
+roscore
+
+主机上，新开端口，启动turtlebot
+roslaunch turtlebot_bringup minimal.launch
+
+工作站上，打开rviz
+roslaunch turtlebot_client kartoSlamClient.launch
+
+确定地图名字（xxx 与上面的地图名字一样）
+map_file:=/home/yang/map/newmap/map_xxx.yaml
+
+确定定位数据包前缀名字（xxx与上面地图名字一样，yyy与路径关）
+折线：夹角大于180度
+三角形
+圆形
+
+file_prefix:=mclbag_xxx_yyy
+
+
+主机上，新开端口，开启AMCL，并记录bag包
+roslaunch mcl scan_mcl_makebag_i7.launch map_file:=/home/yang/map/newmap/map_xxx.yaml file_prefix:=mclbag_xxx
+
+控制机器人运动
+rosrun turtle_move move_turtle_rotate	顺时针旋转机器人
+rosrun turtle_move move_turtle_goforward	机器人行走
+rosrun turtle_move move_turtle_rotate_anticlockwise	逆时针旋转机器人
+
+或者
+打开 roboware，找到工作区间 move_turtlebot
+

@@ -1,0 +1,7 @@
+<!--
+-->
+<launch>
+  <node pkg="rviz" name="rviz" type="rviz" args="-d $(find amcl)/rviz/rviz.rviz" />
+
+
+</launch>

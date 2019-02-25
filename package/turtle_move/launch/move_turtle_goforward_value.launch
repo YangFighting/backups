@@ -1,0 +1,15 @@
+<!--
+    旋转机器人直行，直行距离默认为 1.0 米
+-->
+<launch>
+
+
+  <!-- Goforward value-->
+    <param name="goal_distance" value="2.0"/>
+    <node 
+        name="goforward_value" pkg="turtle_move" type="move_turtle_goforward_value"
+        output="screen"
+    /> 
+  
+
+</launch>

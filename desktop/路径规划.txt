@@ -1,0 +1,25 @@
+roscore
+
+主机上运行 
+roslaunch turtlebot_navigation kartoSlam.launch 
+
+工作站上
+roslaunch turtlebot_client kartoSlamClient.launch
+
+工作机或上网本新开端口，启动键盘操作Turtlebot
+roslaunch turtlebot_teleop keyboard_teleop.launch 
+
+主机上,保存地图
+rosrun map_server map_saver -f /home/yang/map/KB/202
+
+——————————————————————————————————————————————————————————————
+
+路径规划
+上网本新开端口，打开roscore
+roscore
+
+上网本新开端口，启动turtlebot
+roslaunch turtlebot_bringup minimal.launch
+
+上网本端口，开启AMCL
+roslaunch turtlebot_navigation my_amcl_demo.launch map_file:=/home/yang/map/KB/202.yaml
